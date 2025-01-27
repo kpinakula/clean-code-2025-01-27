@@ -1,5 +1,9 @@
 export class Probability{
-    equals(){
-        return true;
+    constructor(numerator, denominator) {
+        this.fraction = numerator / denominator
+    }
+
+    equals(probability) {
+        return this.fraction == probability.fraction;
     }
 }
