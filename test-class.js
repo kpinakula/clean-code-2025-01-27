@@ -1,5 +1,5 @@
-export class TestClass{
-    aMethod(){
+export class Probability{
+    equals(){
         return true;
     }
 }
