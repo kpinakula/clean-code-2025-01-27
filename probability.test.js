@@ -1,4 +1,4 @@
-import {Probability} from "./test-class";
+import {Probability} from "./probability";
 
 describe('Probability...', () => {
     test('A probability of 1/2 is as probable as another probability of 1/2', () => {
