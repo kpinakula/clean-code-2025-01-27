@@ -1,25 +1,28 @@
 export class Measurement {
-    constructor(value, type) {
-        this.value = value
-        this.type = type
+    constructor(quantifier, unit) {
+        this.quantifier = quantifier
+        this.unit = unit
     }
 
     equals(other) {
-        return this.toBaseUnit().value === other.toBaseUnit().value
-        && this.type.baseUnit === other.type.baseUnit
+        if (this.unit instanceof TemperatureUnit) {
+            return this.unit.toCelcius(this.quantifier) === other.unit.toCelcius(other.quantifier)
+        }
+        return this.toBaseUnit().quantifier === other.toBaseUnit().quantifier
+        && this.unit.baseUnit === other.unit.baseUnit
     }
 
     add(other) {
-        if(this.type.baseUnit !== other.type.baseUnit)
+        if(this.unit.baseUnit !== other.unit.baseUnit)
         {
-            throw new Error("trying to add different types of units")
+            throw new Error("trying to add different units of units")
         }
-        let baselineAdding = this.toBaseUnit().value + other.toBaseUnit().value
-        return new Measurement(baselineAdding, new this.type.baseUnit(1))
+        let baselineAdding = this.toBaseUnit().quantifier + other.toBaseUnit().quantifier
+        return new Measurement(baselineAdding, new this.unit.baseUnit(1))
     }
 
     toBaseUnit() {
-        return new Measurement(this.value * this.type.multiplier, new this.type.baseUnit(1))
+        return new Measurement(this.quantifier * this.unit.multiplier, new this.unit.baseUnit(1))
     }
 }
 
@@ -35,6 +38,21 @@ export class LengthUnit {
         this.multiplier = multiplier
     }
     baseUnit = LengthUnit
+}
+
+export class TemperatureUnit {
+    constructor(unit) {
+        this.unit = unit
+    }
+
+    toCelcius(degree) {
+        if (this.unit === "Celcius") {
+            return degree;
+        } else {
+            return (degree- 32) * 5/9;
+        }
+    }
+    baseUnit = VolumeUnit
 }
 
 export class Units {
