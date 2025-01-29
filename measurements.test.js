@@ -1,54 +1,105 @@
 import {Measurement} from "./measurements.js";
 import {Units, TemperatureUnit} from "./unitsOfMeasurements.js";
 
-describe('Test Measurement...', () => {
-    test('two separate teaspoons are equal', () => {
-        expect(new Measurement(1, Units.VOLUME.TEASPOON).equals(new Measurement(1, Units.VOLUME.TEASPOON))).toBe(true);
-    })
-    test('Convert volume of tablespoons to teaspoons', () => {
-        expect(new Measurement(1, Units.VOLUME.TABLESPOON).equals(new Measurement(3, Units.VOLUME.TEASPOON))).toBe(true);
-    })
-    test('Add volume in teaspoons', () => {
-        expect(new Measurement(1, Units.VOLUME.TEASPOON).add(new Measurement(2, Units.VOLUME.TEASPOON)).equals(new Measurement(3, Units.VOLUME.TEASPOON))).toBe(true);
-    })
-    test('Add teaspoons in tablespoons', () => {
-        expect(new Measurement(1, Units.VOLUME.TABLESPOON).add(new Measurement(3, Units.VOLUME.TEASPOON)).equals(new Measurement(2, Units.VOLUME.TABLESPOON))).toBe(true);
-    })
-    test('two separate types of unit are different', () => {
-        expect(new Measurement(1, Units.VOLUME.TEASPOON).equals(new Measurement(1, Units.LENGTH.INCH))).toBe(false);
-    })
-    test('Add distance should work', () => {
-        expect(new Measurement(12, Units.LENGTH.INCH).add(new Measurement(1, Units.LENGTH.FOOT)).equals(new Measurement(2, Units.LENGTH.FOOT))).toBe(true);
-    })
-    test('should not allow to add different types', () => {
-        expect(() => new Measurement(1, Units.LENGTH.INCH).add(new Measurement(1, Units.VOLUME.TEASPOON))).toThrow();
-    })
-    test('two equal C temperatures should be equal', () => {
-        const temperature1 = new Measurement(1, new TemperatureUnit("Celcius"));
-        const temperature2 = new Measurement(1, new TemperatureUnit("Celcius"));
+describe('Test volume...', () => {
 
-        const actual = temperature1.equals(temperature2);
-        expect(actual).toBe(true);
-    })
-    test('two equal F temperatures should be equal', () => {
-        const temperature1 = new Measurement(1, new TemperatureUnit("Fahrenheit"));
-        const temperature2 = new Measurement(1,new TemperatureUnit("Fahrenheit"));
+    describe('equality...', () => {
+        test('two volumes of same unit and quantity are equivalent', () => {
+            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
+            const volume2 = new Measurement(1, Units.VOLUME.TEASPOON);
 
-        const result = temperature1.equals(temperature2);
-        expect(result).toBe(true);
-    })
-    test('1 Celsius is not equals to 1 Fahrenheit', () => {
-        const temperature1 = new Measurement(1, new TemperatureUnit("Fahrenheit"));
-        const temperature2 = new Measurement(1, new TemperatureUnit("Celcius"));
+            expect(volume1.equals(volume2)).toBe(true);
+        })
+        test('two volumes with equivalent quantity in different units are equivalent', () => {
+            const volume1 = new Measurement(1, Units.VOLUME.TABLESPOON);
+            const volume2 = new Measurement(3, Units.VOLUME.TEASPOON);
 
-        const actual = temperature1.equals(temperature2);
-        expect(actual).toBe(false);
-    })
-    test('0 Celsius should be 32 Fahrenheit', () => {
-        const temperature1 = new Measurement(32, new TemperatureUnit("Fahrenheit"));
-        const temperature2 = new Measurement(0, new TemperatureUnit("Celcius"));
+            expect(volume1.equals(volume2)).toBe(true);
+        })
+        test('two measurements with incompatible units are not equivalent', () => {
+            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
+            const length1 = new Measurement(1, Units.LENGTH.INCH);
 
-        const actual = temperature1.equals(temperature2);
-        expect(actual).toBe(true);
-    })
+            expect(volume1.equals(length1)).toBe(false);
+        })
+    });
+
+    describe('addition...', () => {
+        test('1 teaspoon plus 2 teaspoons is equivalent to 3 teaspoons', () => {
+            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
+            const volume2 = new Measurement(2, Units.VOLUME.TEASPOON);
+
+            const actual = volume1.add(volume2);
+            const expected = new Measurement(3, Units.VOLUME.TEASPOON);
+            expect(actual.equals(expected)).toBe(true);
+        })
+        test('1 tablespoon plus 3 teaspoons is equivalent to 3 teaspoons', () => {
+            const volume1 = new Measurement(1, Units.VOLUME.TABLESPOON);
+            const volume2 = new Measurement(3, Units.VOLUME.TEASPOON);
+
+            const actual = volume1.add(volume2);
+            const expected = new Measurement(2, Units.VOLUME.TABLESPOON);
+
+            expect(actual.equals(expected)).toBe(true);
+        })
+    });
+});
+
+
+
+
+
+describe('Test length...', () => {
+    describe('equality...', () => {
+
+    });
+    describe('addition...', () => {
+        test('12 inches plus 1 foot is equivalent to 2 feet', () => {
+            const length1 = new Measurement(12, Units.LENGTH.INCH);
+            const length2 = new Measurement(1, Units.LENGTH.FOOT);
+
+            const actual = length1.add(length2);
+            const expected = new Measurement(2, Units.LENGTH.FOOT);
+
+            expect(actual.equals(expected)).toBe(true);
+        })
+        test('adding measures of incompatible types throws an error', () => {
+            const length1 = new Measurement(1, Units.LENGTH.INCH);
+            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
+            expect(() => length1.add(volume1)).toThrow();
+        })
+    });
+});
+
+describe('Test temperature...', () => {
+    describe('equality...', () => {
+        test('two Celsius temperatures with same degrees are equivalent', () => {
+            const temperature1 = new Measurement(1, new TemperatureUnit("Celcius"));
+            const temperature2 = new Measurement(1, new TemperatureUnit("Celcius"));
+
+            const actual = temperature1.equals(temperature2);
+            expect(actual).toBe(true);
+        })
+        test('two Fahrenheit temperatures with same degrees are equivalent', () => {
+            const temperature1 = new Measurement(1, new TemperatureUnit("Fahrenheit"));
+            const temperature2 = new Measurement(1,new TemperatureUnit("Fahrenheit"));
+
+            const result = temperature1.equals(temperature2);
+            expect(result).toBe(true);
+        })
+        test('1 Celsius is not equivalent to 1 Fahrenheit', () => {
+            const temperature1 = new Measurement(1, new TemperatureUnit("Fahrenheit"));
+            const temperature2 = new Measurement(1, new TemperatureUnit("Celcius"));
+
+            const actual = temperature1.equals(temperature2);
+            expect(actual).toBe(false);
+        })
+        test('0 Celsius is equivalent to 32 Fahrenheit', () => {
+            const temperature1 = new Measurement(32, new TemperatureUnit("Fahrenheit"));
+            const temperature2 = new Measurement(0, new TemperatureUnit("Celcius"));
+
+            const actual = temperature1.equals(temperature2);
+            expect(actual).toBe(true);
+        })
+    });
 })
