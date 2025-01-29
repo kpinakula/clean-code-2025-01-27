@@ -1,5 +1,5 @@
-import {Measurement, TemperatureUnit} from "./measurement.js";
-import {Units} from "./measurement.js";
+import {Measurement} from "./measurements.js";
+import {Units, TemperatureUnit} from "./unitsOfMeasurements.js";
 
 describe('Test Measurement...', () => {
     test('two separate teaspoons are equal', () => {
