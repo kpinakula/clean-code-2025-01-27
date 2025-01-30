@@ -17,23 +17,22 @@ export class Measurement {
         if (this.unit.constructor !== other.unit.constructor) {
             throw new Error("trying to add incompatible measurements")
         }
+
+        var standardUnit;
+
         if (this.unit instanceof VolumeUnit) {
-            const standardUnit = new VolumeUnit();
-            const thisQuantity = this.unit.toStandard(this.quantity);
-            const otherQuantity = other.unit.toStandard(other.quantity);
-            return new Measurement(thisQuantity + otherQuantity, standardUnit);
+            standardUnit = new VolumeUnit();
         }
         if (this.unit instanceof LengthUnit) {
-            const standardUnit = new LengthUnit();
-            const thisQuantity = this.unit.toStandard(this.quantity);
-            const otherQuantity = other.unit.toStandard(other.quantity);
-            return new Measurement(thisQuantity + otherQuantity, standardUnit);
+            standardUnit = new LengthUnit();
         }
         if (this.unit instanceof TemperatureUnit) {
-            const standardUnit = new TemperatureUnit();
-            const thisQuantity = this.unit.toStandard(this.quantity);
-            const otherQuantity = other.unit.toStandard(other.quantity);
-            return new Measurement(thisQuantity + otherQuantity, standardUnit);
+            standardUnit = new TemperatureUnit();
         }
+
+        const thisQuantity = this.unit.toStandard(this.quantity);
+        const otherQuantity = other.unit.toStandard(other.quantity);
+
+        return new Measurement(thisQuantity + otherQuantity, standardUnit);
     }
 }
