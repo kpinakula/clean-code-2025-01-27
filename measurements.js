@@ -8,13 +8,13 @@ export class Measurement {
 
     equals(other) {
         if (this.unit instanceof VolumeUnit && other.unit instanceof VolumeUnit) {
-            return this.unit.toTeaspoon(this.quantity) === other.unit.toTeaspoon(other.quantity)
+            return this.unit.toStandard(this.quantity) === other.unit.toStandard(other.quantity)
         }
         if (this.unit instanceof LengthUnit && other.unit instanceof LengthUnit) {
-            return this.unit.toInch(this.quantity) ===other.unit.toInch(other.quantity)
+            return this.unit.toStandard(this.quantity) ===other.unit.toStandard(other.quantity)
         }
         if (this.unit instanceof TemperatureUnit && other.unit instanceof TemperatureUnit) {
-            return this.unit.toCelcius(this.quantity) === other.unit.toCelcius(other.quantity)
+            return this.unit.toStandard(this.quantity) === other.unit.toStandard(other.quantity)
         }
         return false
     }
@@ -24,16 +24,16 @@ export class Measurement {
             throw new Error("trying to add incompatible measurements")
         }
         if (this.unit instanceof VolumeUnit) {
-            const teaspoon = new VolumeUnit("Teaspoon");
-            const thisQuantity = this.unit.toTeaspoon(this.quantity);
-            const otherQuantity = other.unit.toTeaspoon(other.quantity);
-            return new Measurement(thisQuantity + otherQuantity, teaspoon);
+            const standardUnit = new VolumeUnit();
+            const thisQuantity = this.unit.toStandard(this.quantity);
+            const otherQuantity = other.unit.toStandard(other.quantity);
+            return new Measurement(thisQuantity + otherQuantity, standardUnit);
         }
         if (this.unit instanceof LengthUnit) {
-            const inch = new LengthUnit("Inch");
-            const thisQuantity = this.unit.toInch(this.quantity);
-            const otherQuantity = other.unit.toInch(other.quantity);
-            return new Measurement(thisQuantity + otherQuantity, inch);
+            const standardUnit = new LengthUnit();
+            const thisQuantity = this.unit.toStandard(this.quantity);
+            const otherQuantity = other.unit.toStandard(other.quantity);
+            return new Measurement(thisQuantity + otherQuantity, standardUnit);
         }
     }
 }

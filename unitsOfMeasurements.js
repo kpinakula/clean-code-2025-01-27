@@ -1,9 +1,9 @@
 export class VolumeUnit {
     constructor(unit) {
-        this.unit = unit
+        this.unit = unit ? unit : "Teaspoon"
     }
 
-    toTeaspoon(amount) {
+    toStandard(amount) {
         if (this.unit == "Tablespoon") {
             return amount * 3;
         }
@@ -13,10 +13,10 @@ export class VolumeUnit {
 
 export class LengthUnit {
     constructor(unit) {
-        this.unit = unit
+        this.unit = unit ? unit : "Inch"
     }
 
-    toInch(quantity) {
+    toStandard(quantity) {
         if (this.unit === "Foot") {
             return quantity * 12;
         }
@@ -26,10 +26,10 @@ export class LengthUnit {
 
 export class TemperatureUnit {
     constructor(unit) {
-        this.unit = unit
+        this.unit = unit ? unit : "Celsius"
     }
 
-    toCelcius(degree) {
+    toStandard(degree) {
         if (this.unit === "Fahrenheit") {
             return (degree - 32) * 5/9;
         }
