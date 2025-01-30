@@ -9,14 +9,12 @@ export class VolumeUnit {
         }
         return amount;
     }
-    baseUnit = VolumeUnit
 }
 
 export class LengthUnit {
     constructor(unit) {
         this.unit = unit
     }
-    baseUnit = LengthUnit
 
     toInch(quantity) {
         if (this.unit === "Foot") {
@@ -36,7 +34,5 @@ export class TemperatureUnit {
             return (degree - 32) * 5/9;
         }
         return degree;
-
     }
-    baseUnit = VolumeUnit
 }

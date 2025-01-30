@@ -20,21 +20,20 @@ export class Measurement {
     }
 
     add(other) {
-        if(this.unit.baseUnit !== other.unit.baseUnit)
-            {
-                throw new Error("trying to add different units of units")
-            }
+        if (this.unit.constructor !== other.unit.constructor) {
+            throw new Error("trying to add incompatible measurements")
+        }
         if (this.unit instanceof VolumeUnit) {
             const teaspoon = new VolumeUnit("Teaspoon");
             const thisQuantity = this.unit.toTeaspoon(this.quantity);
             const otherQuantity = other.unit.toTeaspoon(other.quantity);
-            return new Measurement (thisQuantity+otherQuantity, teaspoon);
+            return new Measurement(thisQuantity + otherQuantity, teaspoon);
         }
         if (this.unit instanceof LengthUnit) {
             const inch = new LengthUnit("Inch");
             const thisQuantity = this.unit.toInch(this.quantity);
             const otherQuantity = other.unit.toInch(other.quantity);
-            return new Measurement (thisQuantity+otherQuantity, inch);
+            return new Measurement(thisQuantity + otherQuantity, inch);
         }
     }
 }
