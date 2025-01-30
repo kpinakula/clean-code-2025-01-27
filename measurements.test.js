@@ -1,18 +1,20 @@
 import {Measurement} from "./measurements.js";
-import {Units, TemperatureUnit} from "./unitsOfMeasurements.js";
+import {Units, VolumeUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
 
-describe('Test volume...', () => {
+describe('Test volume measurement ...', () => {
+    const teaspoon = new VolumeUnit("Teaspoon");
+    const tablespoon = new VolumeUnit("Tablespoon");
 
     describe('equality...', () => {
         test('two volumes of same unit and quantity are equivalent', () => {
-            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
-            const volume2 = new Measurement(1, Units.VOLUME.TEASPOON);
+            const volume1 = new Measurement(1, teaspoon);
+            const volume2 = new Measurement(1, teaspoon);
 
             expect(volume1.equals(volume2)).toBe(true);
         })
         test('two volumes with equivalent quantity in different units are equivalent', () => {
-            const volume1 = new Measurement(1, Units.VOLUME.TABLESPOON);
-            const volume2 = new Measurement(3, Units.VOLUME.TEASPOON);
+            const volume1 = new Measurement(1, tablespoon);
+            const volume2 = new Measurement(3, teaspoon);
 
             expect(volume1.equals(volume2)).toBe(true);
         })
@@ -20,26 +22,27 @@ describe('Test volume...', () => {
 
     describe('addition...', () => {
         test('1 teaspoon plus 2 teaspoons is equivalent to 3 teaspoons', () => {
-            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
-            const volume2 = new Measurement(2, Units.VOLUME.TEASPOON);
+            const volume1 = new Measurement(1, teaspoon);
+            const volume2 = new Measurement(2, teaspoon);
 
             const actual = volume1.add(volume2);
-            const expected = new Measurement(3, Units.VOLUME.TEASPOON);
+            const expected = new Measurement(3, teaspoon);
             expect(actual.equals(expected)).toBe(true);
         })
         test('1 tablespoon plus 3 teaspoons is equivalent to 3 teaspoons', () => {
-            const volume1 = new Measurement(1, Units.VOLUME.TABLESPOON);
-            const volume2 = new Measurement(3, Units.VOLUME.TEASPOON);
+            const volume1 = new Measurement(1, tablespoon);
+            const volume2 = new Measurement(3, teaspoon);
 
             const actual = volume1.add(volume2);
-            const expected = new Measurement(2, Units.VOLUME.TABLESPOON);
+            const expected = new Measurement(2, tablespoon);
 
             expect(actual.equals(expected)).toBe(true);
         })
     });
 });
 
-describe('Test length...', () => {
+describe('Test length measurement...', () => {
+    const teaspoon = new VolumeUnit("Teaspoon");
     describe('equality...', () => {
         test('two lengths of same unit and quantity are equivalent', () => {
             const length1 = new Measurement(1, Units.LENGTH.INCH);
@@ -54,7 +57,7 @@ describe('Test length...', () => {
             expect(volume1.equals(volume2)).toBe(true);
         })
         test('two measurements with incompatible units are not equivalent', () => {
-            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
+            const volume1 = new Measurement(1, teaspoon);
             const length1 = new Measurement(1, Units.LENGTH.INCH);
 
             expect(volume1.equals(length1)).toBe(false);
@@ -72,7 +75,7 @@ describe('Test length...', () => {
         })
         test('adding measures of incompatible types throws an error', () => {
             const length1 = new Measurement(1, Units.LENGTH.INCH);
-            const volume1 = new Measurement(1, Units.VOLUME.TEASPOON);
+            const volume1 = new Measurement(1, teaspoon);
             expect(() => length1.add(volume1)).toThrow();
         })
     });

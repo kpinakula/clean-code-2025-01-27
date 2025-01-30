@@ -1,6 +1,13 @@
 export class VolumeUnit {
-    constructor(multiplier) {
-        this.multiplier = multiplier
+    constructor(unit) {
+        this.unit = unit
+    }
+
+    toTeaspoon(amount) {
+        if (this.unit == "Tablespoon") {
+            return amount * 3;
+        }
+        return amount;
     }
     baseUnit = VolumeUnit
 }
@@ -18,20 +25,16 @@ export class TemperatureUnit {
     }
 
     toCelcius(degree) {
-        if (this.unit === "Celcius") {
-            return degree;
-        } else {
-            return (degree- 32) * 5/9;
+        if (this.unit === "Fahrenheit") {
+            return (degree - 32) * 5/9;
         }
+        return degree;
+
     }
     baseUnit = VolumeUnit
 }
 
 export class Units {
-    static VOLUME = {
-        TEASPOON: new VolumeUnit(1),
-        TABLESPOON: new VolumeUnit(3)
-    }
     static LENGTH = {
         INCH: new LengthUnit(1),
         FOOT: new LengthUnit(12)
