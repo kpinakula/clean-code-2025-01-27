@@ -13,10 +13,17 @@ export class VolumeUnit {
 }
 
 export class LengthUnit {
-    constructor(multiplier) {
-        this.multiplier = multiplier
+    constructor(unit) {
+        this.unit = unit
     }
     baseUnit = LengthUnit
+
+    toInch(quantity) {
+        if (this.unit === "Foot") {
+            return quantity * 12;
+        }
+        return quantity;
+    }
 }
 
 export class TemperatureUnit {
@@ -32,11 +39,4 @@ export class TemperatureUnit {
 
     }
     baseUnit = VolumeUnit
-}
-
-export class Units {
-    static LENGTH = {
-        INCH: new LengthUnit(1),
-        FOOT: new LengthUnit(12)
-    }
 }

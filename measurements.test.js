@@ -1,5 +1,5 @@
 import {Measurement} from "./measurements.js";
-import {Units, VolumeUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
+import {VolumeUnit, LengthUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
 
 describe('Test volume measurement ...', () => {
     const teaspoon = new VolumeUnit("Teaspoon");
@@ -43,38 +43,41 @@ describe('Test volume measurement ...', () => {
 
 describe('Test length measurement...', () => {
     const teaspoon = new VolumeUnit("Teaspoon");
+    const inch = new LengthUnit("Inch");
+    const foot = new LengthUnit("Foot");
+
     describe('equality...', () => {
         test('two lengths of same unit and quantity are equivalent', () => {
-            const length1 = new Measurement(1, Units.LENGTH.INCH);
-            const length2 = new Measurement(1, Units.LENGTH.INCH);
+            const length1 = new Measurement(1, inch);
+            const length2 = new Measurement(1, inch);
 
             expect(length1.equals(length2)).toBe(true);
         })
         test('two lengths with equivalent quantity in different units are equivalent', () => {
-            const volume1 = new Measurement(1, Units.LENGTH.FOOT);
-            const volume2 = new Measurement(12, Units.LENGTH.INCH);
+            const volume1 = new Measurement(1, foot);
+            const volume2 = new Measurement(12, inch);
 
             expect(volume1.equals(volume2)).toBe(true);
         })
         test('two measurements with incompatible units are not equivalent', () => {
             const volume1 = new Measurement(1, teaspoon);
-            const length1 = new Measurement(1, Units.LENGTH.INCH);
+            const length1 = new Measurement(1, inch);
 
             expect(volume1.equals(length1)).toBe(false);
         })
     });
     describe('addition...', () => {
         test('12 inches plus 1 foot is equivalent to 2 feet', () => {
-            const length1 = new Measurement(12, Units.LENGTH.INCH);
-            const length2 = new Measurement(1, Units.LENGTH.FOOT);
+            const length1 = new Measurement(12, inch);
+            const length2 = new Measurement(1, foot);
 
             const actual = length1.add(length2);
-            const expected = new Measurement(2, Units.LENGTH.FOOT);
+            const expected = new Measurement(2, foot);
 
             expect(actual.equals(expected)).toBe(true);
         })
         test('adding measures of incompatible types throws an error', () => {
-            const length1 = new Measurement(1, Units.LENGTH.INCH);
+            const length1 = new Measurement(1, inch);
             const volume1 = new Measurement(1, teaspoon);
             expect(() => length1.add(volume1)).toThrow();
         })
