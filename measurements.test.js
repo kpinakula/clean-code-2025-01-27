@@ -85,55 +85,95 @@ describe('Test length measurement...', () => {
 });
 
 describe('Test temperature...', () => {
+    const celsius = new TemperatureUnit("Celsius");
+    const fahrenheit = new TemperatureUnit("Fahrenheit");
     describe('equality...', () => {
         test('two Celsius temperatures with same degrees are equivalent', () => {
-            const temperature1 = new Measurement(1, new TemperatureUnit("Celsius"));
-            const temperature2 = new Measurement(1, new TemperatureUnit("Celsius"));
+            const temperature1 = new Measurement(1, celsius);
+            const temperature2 = new Measurement(1, celsius);
 
             const actual = temperature1.equals(temperature2);
             expect(actual).toBe(true);
         })
         test('two Fahrenheit temperatures with same degrees are equivalent', () => {
-            const temperature1 = new Measurement(1, new TemperatureUnit("Fahrenheit"));
-            const temperature2 = new Measurement(1,new TemperatureUnit("Fahrenheit"));
+            const temperature1 = new Measurement(1, fahrenheit);
+            const temperature2 = new Measurement(1,fahrenheit);
 
             const result = temperature1.equals(temperature2);
             expect(result).toBe(true);
         })
         test('1 Celsius is not equivalent to 1 Fahrenheit', () => {
-            const temperature1 = new Measurement(1, new TemperatureUnit("Fahrenheit"));
-            const temperature2 = new Measurement(1, new TemperatureUnit("Celsius"));
+            const temperature1 = new Measurement(1, fahrenheit);
+            const temperature2 = new Measurement(1, celsius);
 
             const actual = temperature1.equals(temperature2);
             expect(actual).toBe(false);
         })
         test('0 Celsius is equivalent to 32 Fahrenheit', () => {
-            const temperature1 = new Measurement(32, new TemperatureUnit("Fahrenheit"));
-            const temperature2 = new Measurement(0, new TemperatureUnit("Celsius"));
+            const temperature1 = new Measurement(32, fahrenheit);
+            const temperature2 = new Measurement(0, celsius);
 
             const actual = temperature1.equals(temperature2);
             expect(actual).toBe(true);
         })
         test('100 Celsius is equivalent to 212 Fahrenheit', () => {
-            const temperature1 = new Measurement(100, new TemperatureUnit("Celsius"));
-            const temperature2 = new Measurement(212, new TemperatureUnit("Fahrenheit"));
+            const temperature1 = new Measurement(100, celsius);
+            const temperature2 = new Measurement(212, fahrenheit);
 
             const actual = temperature1.equals(temperature2);
             expect(actual).toBe(true);
         })
         test('10 Celsius is equivalent to 50 Fahrenheit', () => {
-            const temperature1 = new Measurement(-40, new TemperatureUnit("Celsius"));
-            const temperature2 = new Measurement(-40, new TemperatureUnit("Fahrenheit"));
+            const temperature1 = new Measurement(-40, celsius);
+            const temperature2 = new Measurement(-40, fahrenheit);
 
             const actual = temperature1.equals(temperature2);
             expect(actual).toBe(true);
         })
         test('-40 Celsius is equivalent to -40 Fahrenheit', () => {
-            const temperature1 = new Measurement(-40, new TemperatureUnit("Celsius"));
-            const temperature2 = new Measurement(-40, new TemperatureUnit("Fahrenheit"));
+            const temperature1 = new Measurement(-40, celsius);
+            const temperature2 = new Measurement(-40, fahrenheit);
 
             const actual = temperature1.equals(temperature2);
             expect(actual).toBe(true);
+        })
+    });
+
+    describe('addition...', () => {
+        test('1 Celsius plus 1 Celsius is equivalent to 2 Celsius', () => {
+            const temperature1 = new Measurement(1, celsius);
+            const temperature2 = new Measurement(1, celsius);
+            const expected = new Measurement(2, celsius);
+
+            expect(temperature1.add(temperature2).equals(expected)).toBe(true);
+        })
+        test('1 Celsius plus -11 Celsius is equivalent to -10 Celsius', () => {
+            const temperature1 = new Measurement(1, celsius);
+            const temperature2 = new Measurement(-11, celsius);
+            const expected = new Measurement(-10, celsius);
+
+            expect(temperature1.add(temperature2).equals(expected)).toBe(true);
+        })
+        test('1 Celsius plus -11 Celsius is equivalent to 14 Fahrenheit', () => {
+            const temperature1 = new Measurement(1, celsius);
+            const temperature2 = new Measurement(-11, celsius);
+            const expected = new Measurement(14, fahrenheit);
+
+            expect(temperature1.add(temperature2).equals(expected)).toBe(true);
+        })
+        test('1 Celsius plus 14 Fahrenheit is equivalent to 9 Celsius', () => {
+            const temperature1 = new Measurement(1, celsius);
+            const temperature2 = new Measurement(14, fahrenheit);
+            const expected = new Measurement(-9, celsius);
+
+            expect(temperature1.add(temperature2).equals(expected)).toBe(true);
+        })
+        test('32 Fahrenheit plus 0 Celsius is equivalent to 0 Celsius', () => {
+            const temperature1 = new Measurement(32, fahrenheit);
+            const temperature2 = new Measurement(0, celsius);
+            const expected = new Measurement(0, celsius);
+
+            expect(temperature1.add(temperature2).equals(expected)).toBe(true);
         })
     });
 })

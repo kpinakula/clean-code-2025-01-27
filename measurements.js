@@ -1,4 +1,4 @@
-import {VolumeUnit, TemperatureUnit, LengthUnit} from "./unitsOfMeasurements.js";
+import {VolumeUnit, LengthUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
 
 export class Measurement {
     constructor(quantity, unit) {
@@ -7,16 +7,10 @@ export class Measurement {
     }
 
     equals(other) {
-        if (this.unit instanceof VolumeUnit && other.unit instanceof VolumeUnit) {
-            return this.unit.toStandard(this.quantity) === other.unit.toStandard(other.quantity)
+        if (this.unit.constructor !== other.unit.constructor) {
+            return false
         }
-        if (this.unit instanceof LengthUnit && other.unit instanceof LengthUnit) {
-            return this.unit.toStandard(this.quantity) ===other.unit.toStandard(other.quantity)
-        }
-        if (this.unit instanceof TemperatureUnit && other.unit instanceof TemperatureUnit) {
-            return this.unit.toStandard(this.quantity) === other.unit.toStandard(other.quantity)
-        }
-        return false
+        return this.unit.toStandard(this.quantity) === other.unit.toStandard(other.quantity)
     }
 
     add(other) {
@@ -31,6 +25,12 @@ export class Measurement {
         }
         if (this.unit instanceof LengthUnit) {
             const standardUnit = new LengthUnit();
+            const thisQuantity = this.unit.toStandard(this.quantity);
+            const otherQuantity = other.unit.toStandard(other.quantity);
+            return new Measurement(thisQuantity + otherQuantity, standardUnit);
+        }
+        if (this.unit instanceof TemperatureUnit) {
+            const standardUnit = new TemperatureUnit();
             const thisQuantity = this.unit.toStandard(this.quantity);
             const otherQuantity = other.unit.toStandard(other.quantity);
             return new Measurement(thisQuantity + otherQuantity, standardUnit);
