@@ -4,6 +4,8 @@ import {VolumeUnit, LengthUnit, TemperatureUnit} from "./unitsOfMeasurements.js"
 describe('Test volume measurement ...', () => {
     const teaspoon = new VolumeUnit(VolumeUnit.TEASPOON);
     const tablespoon = new VolumeUnit(VolumeUnit.TABLESPOON);
+    const ounce = new VolumeUnit(VolumeUnit.OUNCE);
+    const gallon = new VolumeUnit(VolumeUnit.GALLON);
 
     describe('equality...', () => {
         test('two volumes of same unit and quantity are equivalent', () => {
@@ -18,6 +20,18 @@ describe('Test volume measurement ...', () => {
 
             expect(volume1.equals(volume2)).toBe(true);
         })
+        test('3 oz should be equivalent to 18 tsp', () => {
+            const volume1 = new Measurement(3, ounce);
+            const volume2 = new Measurement(18, teaspoon);
+
+            expect(volume1.equals(volume2)).toBe(true);
+        });
+        test('2 gal should be equivalent to 1536 tsp', () => {
+            const volume1 = new Measurement(2, gallon);
+            const volume2 = new Measurement(1536, teaspoon);
+
+            expect(volume1.equals(volume2)).toBe(true);
+        });
     });
 
     describe('addition...', () => {

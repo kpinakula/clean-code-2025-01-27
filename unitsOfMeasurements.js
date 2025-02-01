@@ -1,31 +1,42 @@
 export class VolumeUnit {
     constructor(unit) {
         this.unit = unit
+        this.standardUnit = VolumeUnit.TEASPOON
     }
 
     static TEASPOON = 'tsp';
     static TABLESPOON = 'tbsp';
     static OUNCE = 'oz';
     static CUP = 'cup';
-    static PINT = 'pint';
-    static QUART = 'quart';
-    static GALLON = 'gallon';
-    // 1 tbsp = 3 tsp
-    // 1 oz = 2 tbsp
-    // 1 cup = 8 oz = 16 tbsp
-    // 1 pint = 2 cups
-    // 1 quart = 2 pints
-    // 1 gallon = 4 quarts
+    static PINT = 'pt';
+    static QUART = 'qt';
+    static GALLON = 'gal';
+
+    conversionTable = {
+        [VolumeUnit.TEASPOON]: { multiplier: 1, targetUnit: VolumeUnit.TEASPOON },
+        [VolumeUnit.TABLESPOON]: { multiplier: 3, targetUnit: VolumeUnit.TEASPOON },
+        [VolumeUnit.OUNCE]: { multiplier: 2, targetUnit: VolumeUnit.TABLESPOON },
+        [VolumeUnit.CUP]: { multiplier: 8, targetUnit: VolumeUnit.OUNCE },
+        [VolumeUnit.PINT]: { multiplier: 2, targetUnit: VolumeUnit.CUP },
+        [VolumeUnit.QUART]: { multiplier: 2, targetUnit: VolumeUnit.PINT },
+        [VolumeUnit.GALLON]: { multiplier: 4, targetUnit: VolumeUnit.QUART },
+    }
+
+    #convert(unit, quantity) {
+        const { multiplier, targetUnit } = this.conversionTable[unit];
+        const convertedQuantity = quantity * multiplier;
+
+        return targetUnit === this.standardUnit
+            ? convertedQuantity
+            : this.#convert(targetUnit, convertedQuantity);
+    }
 
     toStandard() {
-        return new VolumeUnit(VolumeUnit.TEASPOON)
+        return new VolumeUnit(this.standardUnit)
     }
 
     toStandardQuantity(quantity) {
-        if (this.unit == VolumeUnit.TABLESPOON) {
-            return quantity * 3;
-        }
-        return quantity;
+        return this.#convert(this.unit, quantity);
     }
 }
 
