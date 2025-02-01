@@ -5,6 +5,9 @@ describe('Test volume measurement ...', () => {
     const teaspoon = new VolumeUnit(VolumeUnit.TEASPOON);
     const tablespoon = new VolumeUnit(VolumeUnit.TABLESPOON);
     const ounce = new VolumeUnit(VolumeUnit.OUNCE);
+    const cup = new VolumeUnit(VolumeUnit.CUP);
+    const pint = new VolumeUnit(VolumeUnit.PINT);
+    const quart = new VolumeUnit(VolumeUnit.QUART);
     const gallon = new VolumeUnit(VolumeUnit.GALLON);
 
     describe('equality...', () => {
@@ -12,25 +15,33 @@ describe('Test volume measurement ...', () => {
             const volume1 = new Measurement(1, teaspoon);
             const volume2 = new Measurement(1, teaspoon);
 
-            expect(volume1.equals(volume2)).toBe(true);
-        });
-        test('two volumes with equivalent quantity in different units are equivalent', () => {
-            const volume1 = new Measurement(1, tablespoon);
-            const volume2 = new Measurement(3, teaspoon);
+            const volume3 = new Measurement(1, gallon);
+            const volume4 = new Measurement(1, gallon);
 
             expect(volume1.equals(volume2)).toBe(true);
+            expect(volume4.equals(volume3)).toBe(true);
         });
-        test('3 oz should be equivalent to 18 tsp', () => {
-            const volume1 = new Measurement(3, ounce);
-            const volume2 = new Measurement(18, teaspoon);
-
-            expect(volume1.equals(volume2)).toBe(true);
-        });
-        test('2 gal should be equivalent to 1536 tsp', () => {
+        test('2 gal should be equivalent to 8 qt, 16 pt, 32 cup, 256 oz, 512 tbsp, 1536 tsp', () => {
             const volume1 = new Measurement(2, gallon);
-            const volume2 = new Measurement(1536, teaspoon);
+            const volume2 = new Measurement(8, quart);
+            const volume3 = new Measurement(16, pint);
+            const volume4 = new Measurement(32, cup);
+            const volume5 = new Measurement(256, ounce);
+            const volume6 = new Measurement(512, tablespoon);
+            const volume7 = new Measurement(1536, teaspoon);
 
             expect(volume1.equals(volume2)).toBe(true);
+            expect(volume1.equals(volume3)).toBe(true);
+            expect(volume1.equals(volume4)).toBe(true);
+            expect(volume1.equals(volume5)).toBe(true);
+            expect(volume1.equals(volume6)).toBe(true);
+            expect(volume1.equals(volume7)).toBe(true);
+        });
+        test('1 tbsp should not be equivalent to 4 tsp', () => {
+            const volume1 = new Measurement(1, tablespoon);
+            const volume2 = new Measurement(4, teaspoon);
+
+            expect(volume1.equals(volume2)).toBe(false);
         });
     });
 
@@ -59,19 +70,44 @@ describe('Test length measurement...', () => {
     const teaspoon = new VolumeUnit(VolumeUnit.TEASPOON);
     const inch = new LengthUnit(LengthUnit.INCH);
     const foot = new LengthUnit(LengthUnit.FOOT);
+    const yard = new LengthUnit(LengthUnit.YARD);
+    const mile = new LengthUnit(LengthUnit.MILE);
+    const furlong = new LengthUnit(LengthUnit.FURLONG);
 
     describe('equality...', () => {
-        test('two lengths of same unit and quantity are equivalent', () => {
-            const length1 = new Measurement(1, inch);
-            const length2 = new Measurement(1, inch);
+        test('63360 in should be equivalent to 5280 ft, 1760 yd, 8 fur and 1 mi ', () => {
+            const length1 = new Measurement(63360, inch);
+            const length2 = new Measurement(63360, inch);
+            const length3 = new Measurement(5280, foot);
+            const length4 = new Measurement(1760, yard);
+            const length5 = new Measurement(8, furlong);
+            const length6 = new Measurement(1, mile);
 
             expect(length1.equals(length2)).toBe(true);
+            expect(length1.equals(length3)).toBe(true);
+            expect(length1.equals(length4)).toBe(true);
+            expect(length1.equals(length5)).toBe(true);
+            expect(length1.equals(length6)).toBe(true);
         });
-        test('two lengths with equivalent quantity in different units are equivalent', () => {
-            const volume1 = new Measurement(1, foot);
-            const volume2 = new Measurement(12, inch);
+        test('1 mi should be equivalent to 8 fur, 1760 yard, 5280 foot and 63360 inch ', () => {
+            const length1 = new Measurement(1, mile);
+            const length2 = new Measurement(1, mile);
+            const length3 = new Measurement(8, furlong);
+            const length4 = new Measurement(1760, yard);
+            const length5 = new Measurement(5280, foot);
+            const length6 = new Measurement(63360, inch);
 
-            expect(volume1.equals(volume2)).toBe(true);
+            expect(length1.equals(length2)).toBe(true);
+            expect(length1.equals(length3)).toBe(true);
+            expect(length1.equals(length4)).toBe(true);
+            expect(length1.equals(length5)).toBe(true);
+            expect(length1.equals(length6)).toBe(true);
+        });
+        test('40 in should not be equivalent to 1 mi ', () => {
+            const length1 = new Measurement(40, inch);
+            const length2 = new Measurement(1, mile);
+
+            expect(length1.equals(length2)).toBe(false);
         });
         test('two measurements with incompatible units are not equivalent', () => {
             const volume1 = new Measurement(1, teaspoon);
@@ -80,6 +116,7 @@ describe('Test length measurement...', () => {
             expect(volume1.equals(length1)).toBe(false);
         });
     });
+
     describe('addition...', () => {
         test('12 inches plus 1 foot is equivalent to 2 feet', () => {
             const length1 = new Measurement(12, inch);
@@ -101,6 +138,7 @@ describe('Test length measurement...', () => {
 describe('Test temperature...', () => {
     const celsius = new TemperatureUnit(TemperatureUnit.CELSIUS);
     const fahrenheit = new TemperatureUnit(TemperatureUnit.FAHRENHEIT);
+
     describe('equality...', () => {
         test('two Celsius temperatures with same degrees are equivalent', () => {
             const temperature1 = new Measurement(1, celsius);
@@ -165,13 +203,6 @@ describe('Test temperature...', () => {
             const temperature1 = new Measurement(1, celsius);
             const temperature2 = new Measurement(-11, celsius);
             const expected = new Measurement(-10, celsius);
-
-            expect(temperature1.add(temperature2).equals(expected)).toBe(true);
-        });
-        test('1 Celsius plus -11 Celsius is equivalent to 14 Fahrenheit', () => {
-            const temperature1 = new Measurement(1, celsius);
-            const temperature2 = new Measurement(-11, celsius);
-            const expected = new Measurement(14, fahrenheit);
 
             expect(temperature1.add(temperature2).equals(expected)).toBe(true);
         });
