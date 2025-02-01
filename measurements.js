@@ -1,5 +1,3 @@
-import {VolumeUnit, LengthUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
-
 export class Measurement {
     constructor(quantity, unit) {
         this.quantity = quantity
@@ -10,7 +8,7 @@ export class Measurement {
         if (this.unit.constructor !== other.unit.constructor) {
             return false
         }
-        return this.unit.toStandard(this.quantity) === other.unit.toStandard(other.quantity)
+        return this.unit.toStandardQuantity(this.quantity) === other.unit.toStandardQuantity(other.quantity)
     }
 
     add(other) {
@@ -18,20 +16,9 @@ export class Measurement {
             throw new Error("trying to add incompatible measurements")
         }
 
-        var standardUnit;
-
-        if (this.unit instanceof VolumeUnit) {
-            standardUnit = new VolumeUnit();
-        }
-        if (this.unit instanceof LengthUnit) {
-            standardUnit = new LengthUnit();
-        }
-        if (this.unit instanceof TemperatureUnit) {
-            standardUnit = new TemperatureUnit();
-        }
-
-        const thisQuantity = this.unit.toStandard(this.quantity);
-        const otherQuantity = other.unit.toStandard(other.quantity);
+        const standardUnit = this.unit.toStandard();
+        const thisQuantity = this.unit.toStandardQuantity(this.quantity);
+        const otherQuantity = other.unit.toStandardQuantity(other.quantity);
 
         return new Measurement(thisQuantity + otherQuantity, standardUnit);
     }

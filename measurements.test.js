@@ -2,8 +2,8 @@ import {Measurement} from "./measurements.js";
 import {VolumeUnit, LengthUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
 
 describe('Test volume measurement ...', () => {
-    const teaspoon = new VolumeUnit("Teaspoon");
-    const tablespoon = new VolumeUnit("Tablespoon");
+    const teaspoon = new VolumeUnit(VolumeUnit.TEASPOON);
+    const tablespoon = new VolumeUnit(VolumeUnit.TABLESPOON);
 
     describe('equality...', () => {
         test('two volumes of same unit and quantity are equivalent', () => {
@@ -42,9 +42,9 @@ describe('Test volume measurement ...', () => {
 });
 
 describe('Test length measurement...', () => {
-    const teaspoon = new VolumeUnit("Teaspoon");
-    const inch = new LengthUnit("Inch");
-    const foot = new LengthUnit("Foot");
+    const teaspoon = new VolumeUnit(VolumeUnit.TEASPOON);
+    const inch = new LengthUnit(LengthUnit.INCH);
+    const foot = new LengthUnit(LengthUnit.FOOT);
 
     describe('equality...', () => {
         test('two lengths of same unit and quantity are equivalent', () => {
@@ -85,8 +85,8 @@ describe('Test length measurement...', () => {
 });
 
 describe('Test temperature...', () => {
-    const celsius = new TemperatureUnit("Celsius");
-    const fahrenheit = new TemperatureUnit("Fahrenheit");
+    const celsius = new TemperatureUnit(TemperatureUnit.CELSIUS);
+    const fahrenheit = new TemperatureUnit(TemperatureUnit.FAHRENHEIT);
     describe('equality...', () => {
         test('two Celsius temperatures with same degrees are equivalent', () => {
             const temperature1 = new Measurement(1, celsius);
