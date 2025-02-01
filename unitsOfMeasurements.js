@@ -1,7 +1,7 @@
 export class VolumeUnit {
     constructor(unit) {
-        this.unit = unit
-        this.standardUnit = VolumeUnit.TEASPOON
+        this.unit = unit;
+        this.standardUnit = VolumeUnit.TEASPOON;
     }
 
     static TEASPOON = 'tsp';
@@ -20,7 +20,7 @@ export class VolumeUnit {
         [VolumeUnit.PINT]: { multiplier: 2, targetUnit: VolumeUnit.CUP },
         [VolumeUnit.QUART]: { multiplier: 2, targetUnit: VolumeUnit.PINT },
         [VolumeUnit.GALLON]: { multiplier: 4, targetUnit: VolumeUnit.QUART },
-    }
+    };
 
     #convert(unit, quantity) {
         const { multiplier, targetUnit } = this.conversionTable[unit];
@@ -32,7 +32,7 @@ export class VolumeUnit {
     }
 
     toStandard() {
-        return new VolumeUnit(this.standardUnit)
+        return new VolumeUnit(this.standardUnit);
     }
 
     toStandardQuantity(quantity) {
@@ -42,14 +42,14 @@ export class VolumeUnit {
 
 export class LengthUnit {
     constructor(unit) {
-        this.unit = unit
+        this.unit = unit;
     }
 
     static INCH = 'inch';
     static FOOT = 'foot';
 
     toStandard() {
-        return new LengthUnit(LengthUnit.INCH)
+        return new LengthUnit(LengthUnit.INCH);
     }
 
     toStandardQuantity(quantity) {
@@ -62,14 +62,14 @@ export class LengthUnit {
 
 export class TemperatureUnit {
     constructor(unit) {
-        this.unit = unit
+        this.unit = unit;
     }
 
     static CELSIUS = 'celsius';
     static FAHRENHEIT = 'fahrenheit';
 
     toStandard() {
-        return new TemperatureUnit(TemperatureUnit.CELSIUS)
+        return new TemperatureUnit(TemperatureUnit.CELSIUS);
     }
 
     toStandardQuantity(degree) {

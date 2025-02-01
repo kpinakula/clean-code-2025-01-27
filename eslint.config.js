@@ -16,6 +16,7 @@ export default [
     },
     rules: {
       ...jest.configs['flat/recommended'].rules,
+      semi: "error"
       // You can override or add specific rules here
     }
   }
