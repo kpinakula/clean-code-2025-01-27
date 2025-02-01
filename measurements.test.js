@@ -1,5 +1,8 @@
 import {Measurement} from "./measurements.js";
-import {VolumeUnit, LengthUnit, TemperatureUnit} from "./unitsOfMeasurements.js";
+import {VolumeUnit} from "./unitsOfMeasurement/volumeUnit.js";
+import {LengthUnit} from "./unitsOfMeasurement/lengthUnit.js";
+import {TemperatureUnit} from "./unitsOfMeasurement/temperatureUnit.js";
+
 
 describe('Test volume measurement ...', () => {
     const teaspoon = new VolumeUnit(VolumeUnit.TEASPOON);
