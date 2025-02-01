@@ -8,7 +8,7 @@ export class Measurement {
         if (this.unit.constructor !== other.unit.constructor) {
             return false;
         }
-        return this.unit.toStandardQuantity(this.quantity) === other.unit.toStandardQuantity(other.quantity);
+        return this.unit.toStandardQuantity(this.quantity).toFixed(2) === other.unit.toStandardQuantity(other.quantity).toFixed(2);
     }
 
     add(other) {

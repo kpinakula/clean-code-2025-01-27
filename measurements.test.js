@@ -40,6 +40,12 @@ describe('Test volume measurement ...', () => {
             expect(volume1.equals(volume6)).toBe(true);
             expect(volume1.equals(volume7)).toBe(true);
         });
+        test('8 tsp should be equivalent to 2.6666 tablespoons', () => {
+            const volume1 = new Measurement(8, teaspoon);
+            const volume2 = new Measurement(2.6666, tablespoon);
+
+            expect(volume1.equals(volume2)).toBe(true);
+        });
         test('1 tbsp should not be equivalent to 4 tsp', () => {
             const volume1 = new Measurement(1, tablespoon);
             const volume2 = new Measurement(4, teaspoon);
